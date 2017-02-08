@@ -1,0 +1,7 @@
+//the configured options and settings for edm_client
+#define EDM_CLIENT_VERSION_MAJOR @edm_client_VERSION_MAJOR@ 
+#define EDM_CLIENT_VERSION_MINOR @edm_client_VERSION_MINOR@ 
+#define EDM_CLIENT_VERSION_PATCH @edm_client_VERSION_PATCH@ 
+
+#define TARGET_ADDRESS "localhost"
+#define TARGET_PORT 12345

@@ -1,0 +1,19 @@
+# CMake & make stuff
+CMakeFiles
+CMakeCache.txt
+*.cmake
+build/Makefile
+
+# Build output
+build
+bin
+
+# Generated code
+**/*build/*.h
+
+# ctags
+tags
+
+# IDE settings
+.idea
+*.iml

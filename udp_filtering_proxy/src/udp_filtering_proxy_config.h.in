@@ -1,0 +1,12 @@
+//the configured options and settings for edm_client
+#define UDP_FILTERING_PROXY_VERSION_MAJOR @udp_filtering_proxy_VERSION_MAJOR@
+#define UDP_FILTERING_PROXY_VERSION_MINOR @udp_filtering_proxy_VERSION_MINOR@
+#define UDP_FILTERING_PROXY_VERSION_PATCH @udp_filtering_proxy_VERSION_PATCH@
+
+#define READ_PACKET_BUFFER_SIZE 2048
+//Target production settings:
+//#define MIN_TIME_INTERVAL_BETWEEN_PACKETS_NANOSEC 10000000      // 10 ms
+//#define RELAX_TIME_INTERVAL_BETWEEN_PACKETS_NANOSEC 100000000   // 100 ms
+//Local machine testing settings:
+#define MIN_TIME_INTERVAL_BETWEEN_PACKETS_NANOSEC 1000000000    // 1 sec
+#define RELAX_TIME_INTERVAL_BETWEEN_PACKETS_NANOSEC 2000000000  // 2 sec
