@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.5)
-project(edm_client VERSION 0.1.0 LANGUAGES C)
+project(udm_test_client VERSION 0.1.0 LANGUAGES C)
 
 # set build type
 if (NOT CMAKE_BUILD_TYPE)
