@@ -35,6 +35,8 @@ int main()
     const ENetVersion version = enet_linked_version();
     printf("Successfully initialized Enet library version %d\nWaiting for clients...\n", version);
 
+    char buf[16];
+
     while (1)
     {
         ENetEvent event;
@@ -58,23 +60,23 @@ int main()
                     else
                         fprintf(stderr, "getnameinfo: %s\n", gai_strerror(getname_result));
 
-                    /* Store any relevant client information here. */
-                    event.peer->data = "Client xxx";
                     break;
                 }
                 case ENET_EVENT_TYPE_RECEIVE:
-                    printf("A packet of length %u containing %s was received from %s on channel %u.\n",
-                           (unsigned int) event.packet->dataLength,
-                           event.packet->data,
-                           (char *) event.peer->data,
-                           event.channelID);
+//                    printf("A packet of length %u containing %s was received from %s on channel %u.\n",
+//                           (unsigned int) event.packet->dataLength,
+//                           event.packet->data,
+//                           (char *) event.peer->data,
+//                           event.channelID);
+                    /* Echo the packet */
+                    enet_peer_send(event.peer, 0, event.packet);
                     /* Clean up the packet now that we're done using it. */
                     enet_packet_destroy(event.packet);
                     break;
                 case ENET_EVENT_TYPE_DISCONNECT:
-                    printf("%s disconnected.\n", (char *) event.peer->data);
-                    /* Reset the peer's client information. */
-                    event.peer->data = NULL;
+                    enet_address_get_host_ip (&event.peer->address, buf,
+                                              sizeof(buf));
+                    printf("%s disconnected.\n", buf);
                     break;
                 default:
                     perror("enet_host_service()");
