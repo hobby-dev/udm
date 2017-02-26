@@ -97,7 +97,7 @@ int main(int argc, char *argv[]) {
     }
 
     const ENetVersion version = enet_linked_version();
-    printf("Successfully initialized Enet library version %d\nConnecting to server...\n",
+    printf("Enet library version %d\nConnecting to server...\n",
            version);
 
     ENetAddress address;
@@ -129,6 +129,7 @@ int main(int argc, char *argv[]) {
         /* had run out without any significant event.            */
         enet_peer_reset(peer);
         printf("Connection to %s:%d failed\n", server_address, server_port);
+        exit(EXIT_FAILURE);
     }
 
     enet_host_destroy(client);
