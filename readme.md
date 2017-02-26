@@ -22,7 +22,7 @@ some memory)
 * clang / gcc (edit build.sh to select gcc)
 * libevent
 * libavl
-* Enet library (for /test client & server)
+* libenet (for /test client & server)
 
 # Troubleshooting
 If you have troubles linking, try updating your ld path with ```$sudo ldconfig```
