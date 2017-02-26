@@ -48,7 +48,7 @@ int main()
                 case ENET_EVENT_TYPE_CONNECT:
                 {
                     char host[NI_MAXHOST], service[NI_MAXSERV];
-                    struct sockaddr_in client_addr = {0};
+                    struct sockaddr_in client_addr;
                     client_addr.sin_family = AF_INET;
                     client_addr.sin_addr.s_addr = event.peer->address.host;
                     client_addr.sin_port = event.peer->address.port;
