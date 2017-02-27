@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.5)
-project(udp_filtering_proxy VERSION 0.1.0 LANGUAGES C)
+project(udm_proxy VERSION 0.1.0 LANGUAGES C)
 
 # set build type
 if (NOT CMAKE_BUILD_TYPE)

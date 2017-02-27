@@ -32,7 +32,7 @@ FIND_LIBRARY(PTHREAD_LIB pthread)
 set(LIBS ${EVENT_LIB} ${AVL_LIB} ${PTHREAD_LIB})
 
 # add main executable
-add_executable(udp_filtering_proxy ${UDP_FILTERING_PROXY_SOURCES})
+add_executable(udm_proxy ${UDP_FILTERING_PROXY_SOURCES})
 
-target_link_libraries(udp_filtering_proxy ${LIBS})
+target_link_libraries(udm_proxy ${LIBS})
 
