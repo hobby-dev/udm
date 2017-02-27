@@ -13,10 +13,10 @@ create_world_socket(const uint16_t incoming_port) {
     const int incoming_socket_fd = socket(AF_INET, SOCK_DGRAM | SOCK_NONBLOCK,
                                           IPPROTO_UDP);
     if (incoming_socket_fd == -1)
-        fatal(NULL);
+        fatal("socket");
 
     // TODO: use getaddrinfo instead?
-    struct sockaddr_in incoming_socket_addr;
+    struct sockaddr_in incoming_socket_addr = {0};
     incoming_socket_addr.sin_family = AF_INET;
     incoming_socket_addr.sin_port = htons(incoming_port);
     incoming_socket_addr.sin_addr.s_addr = htonl(INADDR_ANY);
@@ -26,7 +26,7 @@ create_world_socket(const uint16_t incoming_port) {
                                 &incoming_socket_addr,
                         sizeof(incoming_socket_addr));
     if (rc == -1)
-        fatal(NULL);
+        fatal("bind");
 
     return incoming_socket_fd;
 }
@@ -87,7 +87,7 @@ handle_packet_from_world(evutil_socket_t incoming_socket_fd,
         return;
     }
 
-    struct timespec current_time;
+    struct timespec current_time = {0};
     //TODO: update current time in main loop?
     const int rc = clock_gettime(CLOCK_MONOTONIC_RAW, &current_time);
     if (rc != 0)

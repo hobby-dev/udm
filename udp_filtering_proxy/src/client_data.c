@@ -58,7 +58,7 @@ client_connection_new(const struct sockaddr_in *client_address,
 struct ClientData *
 client_data_get_or_create(struct sockaddr_in *client_address,
                           socklen_t client_address_len) {
-    struct ClientData test;
+    struct ClientData test = {0};
     test.client_address = *client_address;
     // search for existing ClientData:
     avl_node_t *searchResult = avl_search(clients_tree, &test);

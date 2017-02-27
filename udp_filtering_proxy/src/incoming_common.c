@@ -23,7 +23,7 @@ prepare_addrinfo(struct addrinfo *target_addrinfo, const char *target_address,
                  const char *target_port) {
     // Obtain address(es) matching TARGET_HOST/PORT
 
-    struct addrinfo hints;
+    struct addrinfo hints = {0};
     hints.ai_family = AF_UNSPEC;
     hints.ai_socktype = SOCK_DGRAM;
     hints.ai_protocol = IPPROTO_UDP;
@@ -32,7 +32,7 @@ prepare_addrinfo(struct addrinfo *target_addrinfo, const char *target_address,
     const int exit_code = getaddrinfo(target_address, target_port, &hints,
                                       &result_addrinfo);
     if (exit_code != EXIT_SUCCESS)
-        fatal(NULL);
+        fatal(gai_strerror(exit_code));
 
     /*
     getaddrinfo() returns a list of address structures.

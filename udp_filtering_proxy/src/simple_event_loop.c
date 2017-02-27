@@ -6,7 +6,7 @@ extern int keep_running;
 void*
 simple_event_loop(void* arg) {
     struct event_base *event_base = arg;
-    struct timeval tv;
+    struct timeval tv = {0};
 
     while (keep_running) {
         tv.tv_usec = 0;

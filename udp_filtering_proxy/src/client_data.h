@@ -6,10 +6,10 @@
 #include <time.h>
 
 struct ClientData {
-    struct sockaddr_in client_address;
-    socklen_t client_address_len;
     int proxy_to_server_socket_fd;
     uint64_t bits_till_ban;
+    socklen_t client_address_len;
+    struct sockaddr_in client_address;
     struct timespec last_change;
 };
 
