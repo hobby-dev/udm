@@ -4,7 +4,7 @@ Edit ```./src/udp_filtering_proxy_config.h.in```
 # Usage
 ```
 $./build.sh
-$build/bin/udp_filtering_proxy
+$build/bin/udm_proxy
 ```
 
 # Implementation notes
