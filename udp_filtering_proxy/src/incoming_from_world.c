@@ -8,16 +8,15 @@
 
 static struct addrinfo *target_server_addrinfo;
 
-const int
+int
 create_world_socket(const uint16_t incoming_port) {
-    LLOG_DEBUG("Initializing incoming connection\n");
     const int incoming_socket_fd = socket(AF_INET, SOCK_DGRAM | SOCK_NONBLOCK,
                                           IPPROTO_UDP);
     if (incoming_socket_fd == -1)
         fatal(NULL);
 
     // TODO: use getaddrinfo instead?
-    struct sockaddr_in incoming_socket_addr = {0};
+    struct sockaddr_in incoming_socket_addr;
     incoming_socket_addr.sin_family = AF_INET;
     incoming_socket_addr.sin_port = htons(incoming_port);
     incoming_socket_addr.sin_addr.s_addr = htonl(INADDR_ANY);
@@ -59,8 +58,9 @@ diff_timespec(struct timespec *old, struct timespec *new) {
 }
 
 void
-handle_packet_from_world(evutil_socket_t incoming_socket_fd, short flags,
-                         void *arg) {
+handle_packet_from_world(evutil_socket_t incoming_socket_fd,
+                         short __attribute__ ((unused)) flags,
+                         void __attribute__ ((unused)) *arg) {
 
     static char buf[READ_PACKET_BUFFER_SIZE] = {0};
     static struct sockaddr_in source_addr;
@@ -72,7 +72,7 @@ handle_packet_from_world(evutil_socket_t incoming_socket_fd, short flags,
                                             &source_addr_len);
 
     if (bytes_received < 0) {
-        LLOG_DEBUG("recvfrom");
+        log_debug("recvfrom");
         return;
     }
 
@@ -91,7 +91,7 @@ handle_packet_from_world(evutil_socket_t incoming_socket_fd, short flags,
     //TODO: update current time in main loop?
     const int rc = clock_gettime(CLOCK_MONOTONIC_RAW, &current_time);
     if (rc != 0)
-        LLOG_WARN("clock_gettime");
+        log_warn("clock_gettime");
 
     uint64_t passed_time = diff_timespec(&client->last_change, &current_time);
     client->last_change = current_time;
@@ -100,7 +100,7 @@ handle_packet_from_world(evutil_socket_t incoming_socket_fd, short flags,
         client->bits_till_ban = (client->bits_till_ban << 1) + 1;
         if (client->bits_till_ban == UINT64_MAX) {
             //TODO: add to fast banlist
-            LLOG_DEBUG("ban set: %s\n", inet_ntoa(
+            log_debug("ban set: %s\n", inet_ntoa(
                     client->client_address.sin_addr));
         }
     } else if (passed_time > RELAX_TIME_INTERVAL_BETWEEN_PACKETS_NANOSEC) {
@@ -112,5 +112,5 @@ handle_packet_from_world(evutil_socket_t incoming_socket_fd, short flags,
                                       target_server_addrinfo->ai_addr,
                                       target_server_addrinfo->ai_addrlen);
     if (bytes_sent != bytes_received)
-        LLOG_WARN("sendto");
+        log_warn("sendto");
 }

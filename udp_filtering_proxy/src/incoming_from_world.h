@@ -2,7 +2,7 @@
 
 #include <event.h>
 
-const int
+int
 create_world_socket(const uint16_t incoming_port);
 
 struct event *

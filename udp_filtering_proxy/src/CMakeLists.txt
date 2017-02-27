@@ -27,8 +27,9 @@ set(UDP_FILTERING_PROXY_SOURCES
 
 FIND_LIBRARY(EVENT_LIB event)
 FIND_LIBRARY(AVL_LIB avl)
+FIND_LIBRARY(PTHREAD_LIB pthread)
 # add libraries
-set(LIBS ${EVENT_LIB} ${AVL_LIB})
+set(LIBS ${EVENT_LIB} ${AVL_LIB} ${PTHREAD_LIB})
 
 # add main executable
 add_executable(udp_filtering_proxy ${UDP_FILTERING_PROXY_SOURCES})

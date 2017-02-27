@@ -24,7 +24,8 @@ cleanup() {
 }
 
 void
-handle_packet_from_server(evutil_socket_t incoming_socket_fd, short flags,
+handle_packet_from_server(evutil_socket_t incoming_socket_fd,
+                          short __attribute__ ((unused)) flags,
                           void *arg) {
     struct ClientData *client = arg;
 
@@ -34,7 +35,7 @@ handle_packet_from_server(evutil_socket_t incoming_socket_fd, short flags,
                                         READ_PACKET_BUFFER_SIZE,
                                         0);
     if (bytes_received < 0) {
-        LLOG_WARN("recv: server dead?");
+        log_warn("recv: server dead?");
         errno = 0;
         return;
     }
@@ -46,7 +47,7 @@ handle_packet_from_server(evutil_socket_t incoming_socket_fd, short flags,
                                       client->client_address_len);
 
     if (bytes_sent < 0) {
-        LLOG_DEBUG("recv: server dead?");
+        log_debug("recv: server dead?");
         errno = 0;
     } else {
         assert(bytes_sent == bytes_received);

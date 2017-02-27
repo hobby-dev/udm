@@ -23,7 +23,7 @@ prepare_addrinfo(struct addrinfo *target_addrinfo, const char *target_address,
                  const char *target_port) {
     // Obtain address(es) matching TARGET_HOST/PORT
 
-    struct addrinfo hints = {0};
+    struct addrinfo hints;
     hints.ai_family = AF_UNSPEC;
     hints.ai_socktype = SOCK_DGRAM;
     hints.ai_protocol = IPPROTO_UDP;
@@ -63,10 +63,10 @@ prepare_addrinfo(struct addrinfo *target_addrinfo, const char *target_address,
                                                service, NI_MAXSERV,
                                                NI_NUMERICHOST | NI_NUMERICSERV);
         if (getname_result == EXIT_SUCCESS) {
-            LLOG_DEBUG("Successfully got target info for %s:%s\n", host,
+            log_debug("Successfully got target info for %s:%s\n", host,
                        service);
         } else {
-            LLOG_WARN("%s", gai_strerror(getname_result));
+            log_warn("%s", gai_strerror(getname_result));
         }
 
         *target_addrinfo = *iterator; // copy found addinfo

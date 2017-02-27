@@ -18,7 +18,7 @@
 #include "udp_filtering_proxy.h"
 
 int main() {
-    struct udp_filtering_proxy_settings settings = {0};
+    struct udp_filtering_proxy_settings settings;
     // TODO: parse args to fill settings
     settings.incoming_port = 12345;
     settings.target_ip = "localhost";
@@ -29,3 +29,4 @@ int main() {
 
     return udp_filtering_proxy_start(&settings);
 }
+

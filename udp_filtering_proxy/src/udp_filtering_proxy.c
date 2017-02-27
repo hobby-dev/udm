@@ -2,7 +2,6 @@
 
 #include <event.h>
 #include <signal.h>
-#include <udp_filtering_proxy_config.h>
 
 #include "log.h"
 #include "simple_event_loop.h"
@@ -12,17 +11,15 @@
 int keep_running = 1;
 
 void
-proxy_shutdown(evutil_socket_t incoming_socket_fd, short flags, void *arg) {
+proxy_shutdown(evutil_socket_t __attribute__ ((unused)) incoming_socket_fd,
+               short __attribute__ ((unused)) flags,
+               void __attribute__ ((unused)) *arg) {
     keep_running = 0;
 }
 
 int
 udp_filtering_proxy_start(const struct udp_filtering_proxy_settings *settings) {
     log_init(settings->debug);
-    LLOG_INFO("UDP Filtering Proxy version: %d.%d.%d",
-              UDP_FILTERING_PROXY_VERSION_MAJOR,
-              UDP_FILTERING_PROXY_VERSION_MINOR,
-              UDP_FILTERING_PROXY_VERSION_PATCH);
 
     // 1. setup events and signals
     if (settings->debug)

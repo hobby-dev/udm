@@ -30,10 +30,7 @@
 
 int debug;
 
-void vlog(int, const char *, va_list);
-
-void logit(int, const char *, ...);
-
+void vlog(const char *, va_list);
 
 void
 log_init(int n_debug) {
@@ -44,16 +41,16 @@ log_init(int n_debug) {
 
 
 void
-logit(int pri, const char *fmt, ...) {
+logit(const char *fmt, ...) {
     va_list ap;
 
     va_start(ap, fmt);
-    vlog(pri, fmt, ap);
+    vlog(fmt, ap);
     va_end(ap);
 }
 
 void
-vlog(int pri, const char *fmt, va_list ap) {
+vlog(const char *fmt, va_list ap) {
     char *nfmt;
 
     /* best effort in out of mem situations */
@@ -75,16 +72,16 @@ log_warn(const char *emsg, ...) {
 
     /* best effort to even work in out of memory situations */
     if (emsg == NULL)
-        logit(LOG_CRIT, "%s", strerror(errno));
+        logit("%s", strerror(errno));
     else {
         va_start(ap, emsg);
 
         if (asprintf(&nfmt, "%s: %s", emsg, strerror(errno)) == -1) {
             /* we tried it... */
-            vlog(LOG_CRIT, emsg, ap);
-            logit(LOG_CRIT, "%s", strerror(errno));
+            vlog(emsg, ap);
+            logit("%s", strerror(errno));
         } else {
-            vlog(LOG_CRIT, nfmt, ap);
+            vlog(nfmt, ap);
             free(nfmt);
         }
         va_end(ap);
@@ -96,7 +93,7 @@ log_warnx(const char *emsg, ...) {
     va_list ap;
 
     va_start(ap, emsg);
-    vlog(LOG_CRIT, emsg, ap);
+    vlog(emsg, ap);
     va_end(ap);
 }
 
@@ -105,7 +102,7 @@ log_info(const char *emsg, ...) {
     va_list ap;
 
     va_start(ap, emsg);
-    vlog(LOG_INFO, emsg, ap);
+    vlog(emsg, ap);
     va_end(ap);
 }
 
@@ -115,7 +112,7 @@ log_debug(const char *emsg, ...) {
 
     if (debug > 0) {
         va_start(ap, emsg);
-        vlog(LOG_DEBUG, emsg, ap);
+        vlog(emsg, ap);
         va_end(ap);
     }
 }
@@ -123,12 +120,13 @@ log_debug(const char *emsg, ...) {
 void
 fatal(const char *emsg) {
     if (emsg == NULL)
-        logit(LOG_CRIT, "fatal: %s(%d)", strerror(errno), errno);
+        logit("fatal: %s(%d)", strerror(errno), errno);
     else if (errno)
-        logit(LOG_CRIT, "fatal: %s: %s(%d)",
+        logit("fatal: %s: %s(%d)",
               emsg, strerror(errno), errno);
     else
-        logit(LOG_CRIT, "fatal: %s(%d)", emsg, errno);
+        logit("fatal: %s(%d)", emsg, errno);
 
     exit(1);
 }
+

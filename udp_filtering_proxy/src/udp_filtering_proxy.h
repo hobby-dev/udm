@@ -16,3 +16,4 @@ struct udp_filtering_proxy_settings {
 };
 
 int udp_filtering_proxy_start(const struct udp_filtering_proxy_settings *settings);
+
