@@ -4,8 +4,8 @@ It's purpose is DDoS mitigation for UDP application servers.
 
 # Usage
 0. Put your UDP application servers inside secure network
-1. Place (cheap) boxes with udp_filtering_proxy instances facing clients (world)
-2. Each udp_filtering_proxy instance serves only one UDP application server
+1. Place (cheap) boxes with udm_proxy instances facing clients (world)
+2. Each udm_proxy instance serves only one UDP application server
 3. Use more instances to better utilize CPU / network 
 4. configure your system limits properly (each client consumes 1 socket FD + 
 some memory)
@@ -14,7 +14,7 @@ some memory)
 # Implementation
 * 2 threads: from world -> server, from server -> world
 * 
-[Read more](udp_filtering_proxy)
+[Read more](udm_proxy)
 
 # Prerequisites
 * Modern Linux kernel  
