@@ -69,7 +69,7 @@ int main()
 //                           (char *) event.peer->data,
 //                           event.channelID);
                     /* Echo the packet */
-                    enet_peer_send(event.peer, 0, event.packet);
+                    //enet_peer_send(event.peer, 0, event.packet);
                     /* Clean up the packet now that we're done using it. */
                     enet_packet_destroy(event.packet);
                     break;
