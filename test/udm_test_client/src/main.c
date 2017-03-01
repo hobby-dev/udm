@@ -4,7 +4,7 @@
 #include <string.h>
 #include "client_config.h"
 
-void print_usage_and_exit(const char * command) {
+void print_usage_and_exit(const char *command) {
     fprintf(stderr, "Usage: %s [-s server] [-p port] [-d "
                     "delay (ms)] [-c content]\n",
             command);
@@ -16,6 +16,7 @@ int main(int argc, char *argv[]) {
     uint16_t server_port = DEFAULT_TARGET_PORT;
     uint32_t packet_delay = DEFAULT_PACKET_DELAY;
     const char *packet_content = DEFAULT_PACKET_CONTENT;
+    int verbose = 0;
 
     int c;
 
@@ -26,6 +27,8 @@ int main(int argc, char *argv[]) {
                 {"port",    required_argument, 0, 0},
                 {"delay",   required_argument, 0, 0},
                 {"content", required_argument, 0, 0},
+                {"verbose", no_argument,       0, 0},
+                // help must be last option in list:
                 {"help",    no_argument,       0, 0},
                 {0, 0,                         0, 0}
         };
@@ -62,6 +65,9 @@ int main(int argc, char *argv[]) {
                 case 3: //content
                     packet_content = optarg;
                     break;
+                case 4: //verbose
+                    verbose = 1;
+                    break;
                 default:
                     print_usage_and_exit(argv[0]);
             }
@@ -97,8 +103,9 @@ int main(int argc, char *argv[]) {
     }
 
     const ENetVersion version = enet_linked_version();
-    printf("Enet library version %d\nConnecting to server...\n",
-           version);
+    if (verbose)
+        printf("Enet library version %d\nConnecting to server...\n",
+               version);
 
     ENetAddress address;
     enet_address_set_host(&address, server_address);
@@ -114,14 +121,21 @@ int main(int argc, char *argv[]) {
     /* Wait up to 2 seconds for the connection attempt to succeed. */
     if (enet_host_service(client, &event, 2000) > 0 &&
         event.type == ENET_EVENT_TYPE_CONNECT) {
-        printf("Connection to %s:%hu succeeded.\n", server_address, server_port);
+        printf("Connection to %s:%hu succeeded.\n", server_address,
+               server_port);
 
         do {
+            if (event.type == ENET_EVENT_TYPE_DISCONNECT) {
+                if (verbose) printf("Disconnected!\n");
+                break;
+            }
+
             /* Create a reliable packet of size 7 containing "packet\0" */
             ENetPacket *packet = enet_packet_create(packet_content,
                                                     strlen(packet_content) + 1,
                                                     ENET_PACKET_FLAG_RELIABLE);
             enet_peer_send(peer, 0, packet);
+            if (verbose) printf("Sent packet %s \n", packet_content);
         } while (enet_host_service(client, &event, packet_delay) >= 0);
     } else {
         /* Either the 5 seconds are up or a disconnect event was */
