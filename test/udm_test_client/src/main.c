@@ -6,7 +6,7 @@
 
 void print_usage_and_exit(const char *command) {
     fprintf(stderr, "Usage: %s [-s server] [-p port] [-d "
-                    "delay (ms)] [-c content]\n",
+                    "delay (ms)] [-c content] [--verbose]\n",
             command);
     exit(1);
 }

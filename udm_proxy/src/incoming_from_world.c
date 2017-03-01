@@ -100,8 +100,9 @@ handle_packet_from_world(evutil_socket_t incoming_socket_fd,
         client->bits_till_ban = (client->bits_till_ban << 1) + 1;
         if (client->bits_till_ban == UINT64_MAX) {
             //TODO: add to fast banlist
-            log_debug("ban set: %s\n", inet_ntoa(
-                    client->client_address.sin_addr));
+            log_debug("ban set %s:%d\n",
+                      inet_ntoa(client->client_address.sin_addr),
+                      client->client_address.sin_port);
         }
     } else if (passed_time > RELAX_TIME_INTERVAL_BETWEEN_PACKETS_NANOSEC) {
         client->bits_till_ban = client->bits_till_ban >> 1;
