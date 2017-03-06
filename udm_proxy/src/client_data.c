@@ -7,9 +7,6 @@
 #include "incoming_from_server.h"
 #include "log.h"
 
-/**
- * AVL-tree:
- */
 static avl_tree_t *clients_tree;
 
 static int client_connection_compare(const void *arg1, const void *arg2) {

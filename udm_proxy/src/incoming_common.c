@@ -11,13 +11,6 @@ static int world_socket_fd;
 static struct event *incoming_packet_event;
 static struct addrinfo target_server_addrinfo;
 
-/**
- * Private utility function
- * @param target_addrinfo
- * @param target_address
- * @param target_port
- * @return
- */
 int
 prepare_addrinfo(struct addrinfo *target_addrinfo, const char *target_address,
                  const char *target_port) {
